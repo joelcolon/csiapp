@@ -75,7 +75,7 @@ const UserList = () => {
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className='tbody'>
             {users.map(user => (
               <tr key={user.id} className={`user-row ${!user.active ? 'inactive' : ''}`}>
                 <td>{user.name}</td>

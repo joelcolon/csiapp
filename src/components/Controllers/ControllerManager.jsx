@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { fetchControllers, sendCommand } from '../../services/controllerService';
 import "./ControllerManager.css";
@@ -25,19 +26,16 @@ const ControllerManager = () => {
   }, []);
 
   const handleCommand = async (phaseId, command) => {
+    if (!selectedController?.id) {
+      setNotification({ message: 'No hay controlador seleccionado', type: 'error' });
+      return;
+    }
     try {
       await sendCommand(selectedController.id, phaseId, command);
-      setNotification({ 
-        message: 'Comando enviado con éxito',
-        type: 'success'
-      });
+      setNotification({ message: 'Comando enviado con éxito', type: 'success' });
     } catch (error) {
-      setNotification({
-        message: 'Hubo un error al enviar el comando',
-        type: 'error'
-      });
+      setNotification({ message: 'Hubo un error al enviar el comando', type: 'error' });
     }
-    
     setTimeout(() => setNotification(null), 3000);
   };
 
@@ -60,10 +58,10 @@ const ControllerManager = () => {
         <label className="selector-label">Seleccionar Controlador:</label>
         <select
           className="controller-select"
-          value={selectedController.id}
+          value={selectedController.id || ''}
           onChange={(e) => {
             const controller = controllers.find(c => c.id === e.target.value);
-            setSelectedController(controller);
+            setSelectedController(controller || null);
           }}
         >
           {controllers.map(controller => (
@@ -79,14 +77,14 @@ const ControllerManager = () => {
         
         <div className="phases-container">
           {Array.from({ length: selectedController.phases }).map((_, index) => (
-            <div key={index} className="phase-section">
+            <div key={`phase-${selectedController.id}-${index}`} className="phase-section">
               <h4 className="phase-title">Semáforo {index + 1}</h4>
               <div className="phase-actions">
                 <button 
                   className="action-btn primary"
                   onClick={() => handleCommand(index + 1, 'change')}
                 >
-                  Cambiar a esta semáfora
+                  Cambiar a esta semáforo
                 </button>
                 <button 
                   className="action-btn secondary"
