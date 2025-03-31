@@ -1,0 +1,154 @@
+.controller-manager {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .controller-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .controller-title {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+  }
+  
+  .controller-selector {
+    margin-bottom: 2rem;
+  }
+  
+  .controller-selector label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .controller-selector select {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+  }
+  
+  /* Sección de fases/semáforos */
+  .phase-section {
+    background: white;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+  }
+  
+  .phase-title {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+  }
+  
+  .phase-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .action-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    font-size: 1rem;
+  }
+  
+  .action-btn:hover {
+    background-color: var(--secondary-color);
+  }
+  
+  .action-btn.secondary {
+    background-color: var(--success-color);
+  }
+  
+  .action-btn.secondary:hover {
+    background-color: #3ab0d9;
+  }
+  
+  /* Notificaciones */
+  .notification {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    color: white;
+    box-shadow: var(--box-shadow);
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+  }
+  
+  .notification.success {
+    background-color: var(--success-color);
+  }
+  
+  .notification.error {
+    background-color: var(--danger-color);
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  /* Media Queries para ControllerManager */
+@media (max-width: 992px) {
+    .controller-manager {
+      padding: 1.5rem;
+    }
+  
+    .phase-actions {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  
+    .action-btn {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .controller-header {
+      margin-bottom: 1.5rem;
+    }
+  
+    .controller-title {
+      font-size: 1.5rem;
+    }
+  
+    .controller-select {
+      max-width: 100%;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .controller-manager {
+      padding: 1rem;
+    }
+  
+    .phase-section {
+      padding: 1rem;
+    }
+  
+    .phase-title {
+      font-size: 1rem;
+    }
+  }

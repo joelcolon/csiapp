@@ -1,0 +1,55 @@
+.dashboard {
+    padding: 2rem;
+  }
+  .cont-nav{
+  justify-content: space-around;
+  display: flex;
+  margin-bottom: 40px;
+}
+  .panel{
+    text-align: center;
+  }
+
+  .login{
+    text-align: center;
+    background-color: #4361ee;
+    color: aliceblue;
+    padding: 10px;
+    border-radius:20px;
+  }
+  .dashboard-title {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+  }
+  
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .dashboard-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    text-align: center;
+    color: var(--dark-color);
+  }
+  
+  .dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dashboard-card h2 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+  }
+  
+  .dashboard-card p {
+    color: var(--gray-color);
+    font-size: 0.9rem;
+  }
