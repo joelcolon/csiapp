@@ -1,0 +1,24 @@
+.users-page {
+    padding: 2rem;
+  }
+  
+  .users-page h1 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+   
+  }
+  
+  .unauthorized {
+    text-align: center;
+    padding: 2rem;
+    color: var(--danger-color);
+    background: rgba(247, 37, 133, 0.1);
+    border-radius: var(--border-radius);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .unauthorized h2 {
+    margin-bottom: 1rem;
+  }

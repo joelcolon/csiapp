@@ -1,0 +1,99 @@
+.controller-form-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .bt-cancelar{
+    background-color: rgb(139, 139, 139);
+    height: 50px;
+    width: 90px;
+    color: #fff;
+    border-radius: 10px;
+    border: none;
+}
+
+.bt-cancelar:hover{
+    background-color: #5a5a5a;
+
+}
+  
+  .controller-form-content {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    width: 100%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--box-shadow);
+  }
+  
+  .controller-form-title {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+  }
+  
+  .actions-section {
+    margin: 2rem 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+  }
+  
+  .actions-section h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+  }
+  
+  .action-item {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: var(--border-radius);
+  }
+  
+  .action-item-title {
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .cancel-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--gray-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+  }
+  
+  .cancel-btn:hover {
+    background-color: #5a6268;
+  }
+  
+  .save-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+  }
+  
+  .save-btn:hover {
+    background-color: var(--secondary-color);
+  }
