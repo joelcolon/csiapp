@@ -1,41 +1,93 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './UserForm.css';
 
 const UserForm = ({ user, onClose, refreshUsers }) => {
   const [formData, setFormData] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
-    idNumber: user?.idNumber || '',
+    name: '',
+    email: '',
+    idNumber: '',
     password: '',
     confirmPassword: '',
-    role: user?.role || 'operator'
+    role: 'operator'
   });
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        name: user.name || '',
+        email: user.email || '',
+        idNumber: user.idNumber || '',
+        password: '',
+        confirmPassword: '',
+        role: user.role || 'operator'
+      });
+    }
+  }, [user]);
+
   const validateForm = () => {
     const newErrors = {};
-    
-    if (!formData.name) newErrors.name = 'Nombre es requerido';
-    if (!formData.email) newErrors.email = 'Email es requerido';
+    if (!formData.name.trim()) newErrors.name = 'Nombre es requerido';
+    if (!formData.email.trim()) newErrors.email = 'Email es requerido';
     else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email no válido';
-
     if (!user && !formData.password) newErrors.password = 'Contraseña es requerida';
     if (formData.password && formData.password.length < 8) newErrors.password = 'Mínimo 8 caracteres';
-    if (formData.password && !/[A-Z]/.test(formData.password)) newErrors.password = 'Debe contener al menos 1 mayúscula';
-    if (formData.password && !/[!@#$%^&*]/.test(formData.password)) newErrors.password = 'Debe contener al menos 1 carácter especial';
-    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Las contraseñas no coinciden';
-    
+    if (formData.password && formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Las contraseñas no coinciden';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  // const handleSave = async () => {
+  //   if (!validateForm()) return;
+  //   setLoading(true);
+  //   try {
+  //     const method = user ? 'PUT' : 'POST';
+  //     const url = user ? `http://localhost:3000/api/users/${user.id}` : 'http://localhost:3000/api/users';
+      
+  //     const userData = {
+  //       name: formData.name,
+  //       email: formData.email,
+  //       idNumber: formData.idNumber,
+  //       role: formData.role,
+  //     };
+      
+  //     if (formData.password) {
+  //       userData.password = formData.password;
+  //     }
+
+  //     const response = await fetch(url, {
+  //       method,
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(userData)
+  //     });
+
+  //     const data = await response.json();
+  //     if (!response.ok) throw new Error(data.message || 'Error al guardar usuario');
+
+  //     alert(user ? 'Usuario actualizado' : 'Usuario creado');
+  //     refreshUsers();
+  //     onClose();
+  //   } catch (error) {
+  //     alert(error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const handleSave = async () => {
     if (!validateForm()) return;
-
+  
     setLoading(true);
     try {
+      console.log('Datos enviados al backend:', JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        idNumber: formData.idNumber,
+        password: formData.password || undefined,
+        role: formData.role
+      }));
+  
       const response = await fetch('http://localhost:3000/api/users', {
         method: user ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -43,23 +95,30 @@ const UserForm = ({ user, onClose, refreshUsers }) => {
           name: formData.name,
           email: formData.email,
           idNumber: formData.idNumber,
-          password: formData.password,
+          password: formData.password || undefined,
           role: formData.role
         })
       });
-
+  
       const data = await response.json();
+      console.log('Respuesta del servidor:', data);
+  
       if (!response.ok) throw new Error(data.message || 'Error al guardar usuario');
-
+  
       alert(user ? 'Usuario actualizado' : 'Usuario creado');
-      refreshUsers(); // Refrescar la lista de usuarios
+      refreshUsers(); // Recargar la lista de usuarios
       onClose();
     } catch (error) {
-      alert(error.message);
+      console.error('Error en la petición:', error);
+      alert(`Error: ${error.message}`);
     } finally {
       setLoading(false);
     }
   };
+  
+
+
+
 
   return (
     <div className="user-form-modal">
@@ -75,7 +134,6 @@ const UserForm = ({ user, onClose, refreshUsers }) => {
           <div className="form-group">
             <label>Cédula:</label>
             <input type="text" value={formData.idNumber} onChange={(e) => setFormData({...formData, idNumber: e.target.value})} />
-            {errors.idNumber && <span className="error">{errors.idNumber}</span>}
           </div>
 
           <div className="form-group">
@@ -105,7 +163,7 @@ const UserForm = ({ user, onClose, refreshUsers }) => {
           </div>
 
           <div className="form-actions">
-            <button type="button" onClick={onClose}>Cancelar</button>
+            <button type="button" onClick={onClose} disabled={loading}>Cancelar</button>
             <button type="submit" disabled={loading}>{loading ? 'Guardando...' : 'Guardar'}</button>
           </div>
         </form>

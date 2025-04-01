@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
@@ -35,14 +36,36 @@ const UserSchema = new mongoose.Schema({
 
 const ControllerSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  phoneNumber: { type: String, required: true },
   location: { type: String, required: true },
   phases: { type: Number, required: true, min: 1, max: 8 },
+  actions: [
+    {
+      description: { type: String, required: true },
+      command: { type: String, required: true }
+    }
+  ],
   status: { type: String, enum: ['active', 'inactive', 'maintenance'], default: 'active' },
   lastUpdated: { type: Date, default: Date.now }
 });
 
+// Nueva colección para almacenar los datos de los controladores formulados
+const FormControllerSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  phoneNumber: { type: String, required: true },
+  location: { type: String, required: true },
+  phases: { type: Number, required: true, min: 1, max: 4 },
+  actions: [
+    {
+      description: { type: String, required: true },
+      command: { type: String, required: true }
+    }
+  ]
+});
+
 const User = mongoose.model('User', UserSchema);
 const Controller = mongoose.model('Controller', ControllerSchema);
+const FormController = mongoose.model('FormController', FormControllerSchema);
 
 // Datos iniciales
 const initializeData = async () => {
@@ -108,6 +131,29 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
+
+
+// Ruta para eliminar un controlador por su _id
+app.delete('/api/controllers/:_id', async (req, res) => {
+  const { _id } = req.params;
+
+  try {
+    const controller = await Controller.findById(_id);
+    if (!controller) {
+      return res.status(404).json({ message: 'Controlador no encontrado' });
+    }
+
+    await Controller.findByIdAndDelete(_id);
+    res.json({ status: 'success', message: 'Controlador eliminado' });
+  } catch (err) {
+    console.error('Error eliminando controlador:', err);
+    res.status(500).json({ message: 'Error al eliminar controlador' });
+  }
+});
+
+
+
+
 // Rutas para usuarios
 app.post('/api/users', async (req, res) => {
   try {
@@ -164,6 +210,54 @@ app.delete('/api/users/:id', async (req, res) => {
   } catch (err) {
     console.error('Error eliminando usuario:', err);
     res.status(500).json({ message: 'Error al eliminar usuario' });
+  }
+});
+
+// Ruta para agregar un nuevo controlador
+app.post('/api/controllers', async (req, res) => {
+  const { name, phoneNumber, location, phases, actions } = req.body;
+
+  // Validación de los datos (si es necesario)
+  if (!name || !phoneNumber || !location || !phases || !actions) {
+    return res.status(400).json({ message: 'Todos los campos son requeridos' });
+  }
+
+  try {
+    const newController = await Controller.create({
+      name,
+      phoneNumber,
+      location,
+      phases,
+      actions
+    });
+    res.status(201).json(newController);
+  } catch (err) {
+    console.error('Error creando controlador:', err);
+    res.status(500).json({ message: 'Error al crear controlador' });
+  }
+});
+
+// Ruta para almacenar los datos del formulario de controlador
+app.post('/api/form-controllers', async (req, res) => {
+  const { name, phoneNumber, location, phases, actions } = req.body;
+
+  // Validación de los datos
+  if (!name || !phoneNumber || !location || !phases || !actions) {
+    return res.status(400).json({ message: 'Todos los campos son requeridos' });
+  }
+
+  try {
+    const newFormController = await FormController.create({
+      name,
+      phoneNumber,
+      location,
+      phases,
+      actions
+    });
+    res.status(201).json(newFormController);
+  } catch (err) {
+    console.error('Error creando formulario de controlador:', err);
+    res.status(500).json({ message: 'Error al crear formulario de controlador' });
   }
 });
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ControllerForm from './ControllerForm'; // Importación corregida (sin llaves)
 import './ControllerList.css';
 
@@ -7,37 +7,37 @@ const ControllerList = () => {
   const [editingController, setEditingController] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
-  // Ejemplo de datos iniciales (deberías obtenerlos de tu API)
-  const loadControllers = () => {
-    setControllers([
-      {
-        id: 1,
-        name: 'San Vicente de Paul con Costa Rica',
-        phoneNumber: '8091234567',
-        phases: 4,
-        actions: [
-          { description: 'Cambiar a esta semáfora', command: 'change' },
-          { description: 'Aumentar a 30%', command: 'increase_30' },
-          { description: 'Aumentar a 60%', command: 'increase_60' }
-        ]
+  // Cargar los controladores desde la base de datos
+  const loadControllers = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/controllers');
+      if (response.ok) {
+        const data = await response.json();
+        setControllers(data); // Asumimos que la respuesta es un array de controladores
+      } else {
+        console.error('Error al obtener los controladores');
       }
-    ]);
+    } catch (error) {
+      console.error('Error de red:', error);
+    }
   };
 
-  React.useEffect(() => {
+  // Cargar los controladores cuando el componente se monta
+  useEffect(() => {
     loadControllers();
   }, []);
 
+  // Guardar un nuevo controlador o actualizar uno existente
   const handleSave = (controllerData) => {
     if (editingController) {
       // Actualizar controlador existente
       setControllers(controllers.map(c => 
-        c.id === editingController.id ? {...c, ...controllerData} : c
+        c._id === editingController._id ? { ...c, ...controllerData } : c
       ));
     } else {
       // Crear nuevo controlador
       const newController = {
-        id: Math.max(...controllers.map(c => c.id), 0) + 1,
+        _id: Math.max(...controllers.map(c => c._id), 0) + 1,  // Aquí se cambia id a _id
         ...controllerData
       };
       setControllers([...controllers, newController]);
@@ -79,7 +79,7 @@ const ControllerList = () => {
         </thead>
         <tbody>
           {controllers.map(controller => (
-            <tr key={controller.id}>
+            <tr key={controller._id}>  {/* Cambié id a _id */}
               <td>{controller.name}</td>
               <td>{controller.phoneNumber}</td>
               <td>{controller.phases}</td>
@@ -96,9 +96,20 @@ const ControllerList = () => {
                 
                 <button
                   className="controller-action-btn controller-delete-btn"
-                  onClick={() => {
+                  onClick={async () => {
                     if (window.confirm('¿Está seguro de eliminar este controlador?')) {
-                      setControllers(controllers.filter(c => c.id !== controller.id));
+                      try {
+                        const response = await fetch(`http://localhost:3000/api/controllers/${controller._id}`, {  // Cambié id a _id
+                          method: 'DELETE',
+                        });
+                        if (response.ok) {
+                          setControllers(controllers.filter(c => c._id !== controller._id));  // Cambié id a _id
+                        } else {
+                          console.error('Error al eliminar el controlador');
+                        }
+                      } catch (error) {
+                        console.error('Error de red:', error);
+                      }
                     }
                   }}
                 >
