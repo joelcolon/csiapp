@@ -39,7 +39,7 @@ const LoginForm = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2 className="auth-title">Inicio de Sesión</h2>
+        
         
         <form onSubmit={handleSubmit} className="auth-form">
           {errors.api && (

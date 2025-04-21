@@ -1,0 +1,47 @@
+.controllers-page { 
+ }
+
+  .container-title{
+    display: flex;
+    margin-bottom: 3rem;
+    justify-content:center;
+    gap: 500px;
+    margin: 0px auto;
+  }
+  
+  .controllers-page h1 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+  }
+  
+.management-section1{
+    display: flex;
+    justify-content: center;
+}
+  
+  .management-section {
+    max-width: 1100px;
+    max-height: 840px;
+    background: white;
+    
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+  }
+
+  @media (max-width: 799px) {
+
+    .admin-section {
+      margin: 0px;
+      width: auto;}
+      .container-title{
+        display:block;
+        margin: 0px;
+      }
+      .management-section{
+        width: 100%;
+        margin-top: 8rem
+      }
+      
+    }

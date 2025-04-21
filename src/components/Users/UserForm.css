@@ -10,6 +10,14 @@
     align-items: center;
     z-index: 1000;
   }
+  select {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+  }
   
   .bt-cancelar{
     background-color: rgb(139, 139, 139);
@@ -19,6 +27,70 @@
     border-radius: 10px;
     border: none;
 }
+
+/* Estilos del mensaje */
+.message {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+  position: relative;
+}
+
+.message.success {
+  background-color: #4caf50; /* Verde para éxito */
+}
+
+.message.error {
+  background-color: #f44336; /* Rojo para error */
+}
+
+.message button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #d6d6d6;
+  cursor: not-allowed;
+}
+
+button[type="button"] {
+  background-color: #f44336;
+}
+
+
+
   .user-form-content {
     background: white;
     padding: 2rem;

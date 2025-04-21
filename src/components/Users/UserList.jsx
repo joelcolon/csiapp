@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import UserForm from './UserForm';
 import './UserList.css';
-import { Link } from 'react-router-dom';
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -30,8 +29,7 @@ const UserList = () => {
   return (
     <div className="user-list-container">
       <div className="user-list-header">
-        <h1 className="user-list-title">Administración de Usuarios</h1>
-        <Link to="/dashboard"><h2 className='volver'>Volver</h2></Link>
+        <h1 className="user-list-title"> Lista de Usuarios</h1>
         <button
           className="add-user-btn"
           onClick={() => {
@@ -47,8 +45,8 @@ const UserList = () => {
         <UserForm
           user={editingUser}
           onClose={() => setShowForm(false)}
-          refreshUsers={loadUsers} // 🔥 PASAMOS LA FUNCIÓN CORRECTAMENTE
-        />
+          refreshUsers={loadUsers}
+          />
       )}
 
       <div className="table-responsive">
@@ -64,8 +62,9 @@ const UserList = () => {
           </thead>
           <tbody className="tbody">
   {users.map(user => {
-    const userId = user.id || user._id || `temp-${Math.random().toString(36).substr(2, 9)}`;
+    const userId = user._id || `temp-${Math.random().toString(36).substr(2, 9)}`;
     return (
+      <>
       <tr key={userId} className={`user-row ${!user.active ? 'inactive' : ''}`}>
         <td>{user.name}</td>
         <td>{user.email}</td>
@@ -81,7 +80,7 @@ const UserList = () => {
         </td>
         <td className="actions-cell">
           <button
-            className="action-btn edit-btn"
+            className=" edit-btn"
             onClick={() => {
               setEditingUser(user);
               setShowForm(true);
@@ -89,40 +88,41 @@ const UserList = () => {
           >
             Editar
           </button>
-
-          {!user.isDefaultAdmin && (
+  
+          {/* Mostrar botones de activar/desactivar solo si no es admin */}
+          {user.role !== 'admin' && (
             <>
               <button
-                className={`action-btn toggle-btn ${user.active ? 'deactivate' : 'activate'}`}
+                className={`toggle-btn ${user.active ? 'deactivate' : 'activate'}`}
                 onClick={() => {
-                  fetch(`http://localhost:3000/api/users/${user.id}/toggle`, {
+                  fetch(`http://localhost:3000/api/users/${user._id}/toggle`, {
                     method: 'PUT'
                   }).then(() => loadUsers());
                 }}
               >
                 {user.active ? 'Desactivar' : 'Activar'}
               </button>
-
+  
               <button
-  className="action-btn delete-btn"
-  onClick={() => {
-    if (window.confirm('¿Está seguro de eliminar este usuario?')) {
-      // Usar user._id en lugar de user.id
-      fetch(`http://localhost:3000/api/users/${user._id}`, {
-        method: 'DELETE'
-      })
-      .then(() => loadUsers())  // Vuelve a cargar los usuarios después de eliminar
-      .catch((error) => console.error('Error al eliminar el usuario:', error));
-    }
-  }}
->
-  Eliminar
-</button>
-
+                className="delete-btn"
+                onClick={() => {
+                  if (window.confirm('¿Está seguro de eliminar este usuario?')) {
+                    fetch(`http://localhost:3000/api/users/${user._id}`, {
+                      method: 'DELETE'
+                    })
+                      .then(() => loadUsers())
+                      .catch((error) => console.error('Error al eliminar el usuario:', error));
+                  }
+                }}
+              >
+                Eliminar
+              </button>
             </>
           )}
         </td>
       </tr>
+        <div className='divisor'></div>
+        </>
     );
   })}
 </tbody>

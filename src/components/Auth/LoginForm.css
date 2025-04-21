@@ -3,8 +3,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 80vh;
     background-color: #f0f2f5;
+    border-radius: var(--border-radius);
     padding: 1rem;
   }
   

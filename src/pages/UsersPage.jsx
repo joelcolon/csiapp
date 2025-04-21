@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import UserForm from '../components/Users/UserForm';
 import UserList from '../components/Users/UserList';
 import './UsersPage.css';
+import { Link } from 'react-router-dom';
 
 const UsersPage = () => {
   const { user } = useAuth();
@@ -44,6 +45,10 @@ const UsersPage = () => {
   return (
     <div className="users-page">
       <header className="users-header">
+      <div className='container-title'>
+      <h1 className='titulo'>Administración de Usuarios</h1>
+      <Link to="/dashboard"><h2 className='volver'>volver</h2></Link>
+      </div>
       </header>
 
       <div className="users-content">

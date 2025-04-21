@@ -1,5 +1,9 @@
 .controllers-page {
-    padding: 2rem;
+
+  }
+  .container-title{
+    margin-bottom: 2rem;
+    padding-bottom:2rem ;
   }
   
   .controllers-page h1 {
@@ -9,11 +13,7 @@
   }
   
   .admin-section {
-    background: white;
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    margin-bottom: 2rem;
+ 
   }
   
   .management-section {
@@ -22,3 +22,15 @@
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
   }
+
+  @media (max-width: 992px) {
+
+    .admin-section {
+      margin: 0px;
+      width: auto;}
+      .container-title{
+      margin-bottom: 2rem;
+        display: block;
+
+      }
+    }

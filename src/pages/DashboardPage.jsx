@@ -34,7 +34,7 @@ const DashboardPage = () => {
           </>
         )}
 
-        <Link to="/controllers" className="dashboard-card">
+        <Link to="/controllersManager" className="dashboard-card">
           <h2>Manejar Controladores</h2>
           <p>Control en tiempo real</p>
         </Link>

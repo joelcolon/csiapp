@@ -13,6 +13,7 @@ const UserForm = ({ user, onClose, refreshUsers }) => {
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null); // Estado para el mensaje
 
   useEffect(() => {
     if (user) {
@@ -39,55 +40,13 @@ const UserForm = ({ user, onClose, refreshUsers }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // const handleSave = async () => {
-  //   if (!validateForm()) return;
-  //   setLoading(true);
-  //   try {
-  //     const method = user ? 'PUT' : 'POST';
-  //     const url = user ? `http://localhost:3000/api/users/${user.id}` : 'http://localhost:3000/api/users';
-      
-  //     const userData = {
-  //       name: formData.name,
-  //       email: formData.email,
-  //       idNumber: formData.idNumber,
-  //       role: formData.role,
-  //     };
-      
-  //     if (formData.password) {
-  //       userData.password = formData.password;
-  //     }
-
-  //     const response = await fetch(url, {
-  //       method,
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify(userData)
-  //     });
-
-  //     const data = await response.json();
-  //     if (!response.ok) throw new Error(data.message || 'Error al guardar usuario');
-
-  //     alert(user ? 'Usuario actualizado' : 'Usuario creado');
-  //     refreshUsers();
-  //     onClose();
-  //   } catch (error) {
-  //     alert(error.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
   const handleSave = async () => {
     if (!validateForm()) return;
   
     setLoading(true);
+    setMessage(null); // Limpiar mensaje previo
+    
     try {
-      console.log('Datos enviados al backend:', JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        idNumber: formData.idNumber,
-        password: formData.password || undefined,
-        role: formData.role
-      }));
-  
       const response = await fetch('http://localhost:3000/api/users', {
         method: user ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -101,29 +60,35 @@ const UserForm = ({ user, onClose, refreshUsers }) => {
       });
   
       const data = await response.json();
-      console.log('Respuesta del servidor:', data);
   
       if (!response.ok) throw new Error(data.message || 'Error al guardar usuario');
   
-      alert(user ? 'Usuario actualizado' : 'Usuario creado');
+      // Mostrar mensaje de éxito
+      setMessage({ type: 'success', text: user ? 'Usuario actualizado' : 'Usuario creado' });
       refreshUsers(); // Recargar la lista de usuarios
       onClose();
     } catch (error) {
       console.error('Error en la petición:', error);
-      alert(`Error: ${error.message}`);
+      // Mostrar mensaje de error
+      setMessage({ type: 'error', text: `Error: ${error.message}` });
     } finally {
       setLoading(false);
     }
   };
-  
-
-
-
 
   return (
     <div className="user-form-modal">
       <div className="user-form-content">
         <h2>{user ? 'Editar Usuario' : 'Agregar Usuario'}</h2>
+        
+        {/* Mostrar mensaje */}
+        {message && (
+          <div className={`message ${message.type}`}>
+            {message.text}
+            <button onClick={() => setMessage(null)} className="close-btn">×</button>
+          </div>
+        )}
+        
         <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
           <div className="form-group">
             <label>Nombre:</label>

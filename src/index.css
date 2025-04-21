@@ -9,7 +9,7 @@
   --dark-color: #212529;
   --gray-color: #6c757d;
   --border-radius: 8px;
-  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease;
 }
 
@@ -25,6 +25,12 @@ body {
   background-color: #f5f7fa;
   color: var(--dark-color);
 }
+
+th, td{
+  border: 2px solid #e2e2ee;
+}
+
+
 
 a {
   text-decoration: none;
@@ -69,7 +75,8 @@ button {
   }
 
   .notification {
-    width: calc(100% - 2rem);
+    width: calc(250px);
+    height: 40px;
     left: 1rem;
     right: 1rem;
     top: auto;

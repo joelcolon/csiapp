@@ -1,12 +1,21 @@
-.users-page {
-    padding: 2rem;
-  }
+.container-title {
+  padding-top: 2rem;
+  padding-left:1rem ;
+  padding-right:1rem ;
+  background-color: #17202a;
+  height: 100px;
+
+}
+  
   
   .users-page h1 {
     font-size: 2rem;
     color: var(--primary-color);
-    margin-bottom: 2rem;
-   
+    margin-bottom: 1rem;
+  }
+
+  .users-header{
+    
   }
   
   .unauthorized {
@@ -21,4 +30,15 @@
   
   .unauthorized h2 {
     margin-bottom: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .container-title {
+      padding-top: 2rem;
+      padding-left:1rem ;
+      padding-right:1rem ;
+      background-color: #f5f7fa;
+      height: 100px;
+    
+    }
   }

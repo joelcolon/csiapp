@@ -5,6 +5,7 @@ import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
 import UsersPage from './pages/UsersPage';
 import ControllersPage from './pages/ControllersPage';
+import ContrManagerPage from './pages/ContrManagerPage';
 
 const PrivateRoute = ({ children, roles = [] }) => {
   const { user } = useAuth();
@@ -35,6 +36,13 @@ function App() {
               <ControllersPage />
             </PrivateRoute>
           } />
+
+            <Route path="/controllersManager" element={
+            <PrivateRoute roles={['admin', 'operator']}>
+              <ContrManagerPage />
+            </PrivateRoute>
+          } />
+          
           
           <Route path="/users" element={
             <PrivateRoute roles={['admin']}>

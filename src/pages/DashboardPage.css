@@ -1,13 +1,21 @@
 .dashboard {
-    padding: 2rem;
+    width: auto;
   }
   .cont-nav{
-  justify-content: space-around;
   display: flex;
-  margin-bottom: 40px;
+  gap: 40px;
+  margin-bottom: 100px;
+  padding: 20px;
+  background-color: #17202a;
+  align-items: center;
+  justify-content:space-around;
+  height: 100px;
+  
 }
   .panel{
     text-align: center;
+    color: var(--primary-color);
+    
   }
 
   .login{
@@ -15,8 +23,18 @@
     background-color: #4361ee;
     color: aliceblue;
     padding: 10px;
-    border-radius:20px;
+    font-size: large;
+    font-weight: bold;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    border-radius: var(--border-radius);
   }
+
+  .login:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
   .dashboard-title {
     font-size: 2rem;
     color: var(--primary-color);
@@ -24,9 +42,10 @@
   }
   
   .dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    display: flex;
     gap: 1.5rem;
+  justify-content: center;
+  align-content: center;
   }
   
   .dashboard-card {
@@ -52,4 +71,21 @@
   .dashboard-card p {
     color: var(--gray-color);
     font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard {
+      max-width:100%;
+      
+    }
+    .dashboard-grid{
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 3fr));
+      gap: 1.5rem;
+  }
+  .login{
+    font-size:small;
+    font-weight: bold;
+  }
   }

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { fetchControllers, sendCommand } from '../../services/controllerService';
 import "./ControllerManager.css";
+import { Link } from 'react-router-dom';
 
 const ControllerManager = () => {
   const [controllers, setControllers] = useState([]);
@@ -44,9 +45,6 @@ const ControllerManager = () => {
 
   return (
     <div className="controller-manager">
-      <div className="controller-header">
-        <h2 className="controller-title">Manejador de Controladores</h2>
-      </div>
       
       {notification && (
         <div className={`notification ${notification.type}`}>
@@ -70,14 +68,15 @@ const ControllerManager = () => {
             </option>
           ))}
         </select>
+          <h2 className="controller-name">{selectedController.name}</h2>
       </div>
       
       <div className="controller-details">
-        <h3 className="controller-name">{selectedController.name}</h3>
-        
+
+        <div className='phases-global'>
         <div className="phases-container">
           {Array.from({ length: selectedController.phases }).map((_, index) => (
-            <div key={`phase-${selectedController.id}-${index}`} className="phase-section">
+            <div key={`phase-${selectedController.id}-${index}`} className={`phase-section position-${index}`}>
               <h4 className="phase-title">Semáforo {index + 1}</h4>
               <div className="phase-actions">
                 <button 
@@ -89,7 +88,7 @@ const ControllerManager = () => {
                 <button 
                   className="action-btn secondary"
                   onClick={() => handleCommand(index + 1, 'increase_30')}
-                >
+                  >
                   Aumentar a 30%
                 </button>
                 <button 
@@ -102,6 +101,7 @@ const ControllerManager = () => {
             </div>
           ))}
         </div>
+          </div>
       </div>
     </div>
   );
